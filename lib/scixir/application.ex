@@ -4,16 +4,12 @@ defmodule Scixir.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     children = [
       {Redix, name: :redix},
-      {Scixir.MinioBroadway, []},
-      supervisor(Scixir.Server.Supervisor, [])
+      {Scixir.MinioBroadway, []}
     ]
 
-    opts = [strategy: :one_for_one]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one)
 
     receive do
       {:DOWN, _, _, _, _} ->
