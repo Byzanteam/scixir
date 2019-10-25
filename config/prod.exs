@@ -2,6 +2,7 @@ use Mix.Config
 
 config :scixir,
   minio_broadway_list_name: System.get_env("MINIO_REDIS_NOTIFICATION_KEY")
+  scissor_broadway_list_name: System.get_env("SCIXIR_SCISSOR_BROADWAY_LIST_NAME")
 
 config :scixir, :redis,
   host: System.get_env("MINIO_REDIS_URL"),

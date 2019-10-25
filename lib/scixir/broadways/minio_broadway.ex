@@ -4,7 +4,7 @@ defmodule Scixir.MinioBroadway do
   alias Broadway.Message
 
   def start_link(_opts) do
-    {list_name, working_list_name} = get_list_name()
+    {list_name, working_list_name} = Scixir.Config.list_name(:minio)
 
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
