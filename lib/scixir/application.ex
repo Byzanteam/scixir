@@ -7,7 +7,8 @@ defmodule Scixir.Application do
     children = [
       Scixir.Downloader,
       {Redix, name: :redix},
-      {Scixir.MinioBroadway, []}
+      {Scixir.MinioBroadway, []},
+      {Scixir.ScissorBroadway, []}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
