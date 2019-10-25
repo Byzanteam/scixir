@@ -1,4 +1,6 @@
 defmodule Scixir.MinioBroadway do
+  require Logger
+
   use Broadway
 
   alias Broadway.Message
@@ -20,30 +22,79 @@ defmodule Scixir.MinioBroadway do
         ]
       ],
       processors: [
-        default: [stages: 2]
+        default: [stages: 10]
+      ],
+      batchers: [
+        default: [stages: 1, batch_size: 10],
       ]
     )
   end
 
   @impl true
-  def handle_message(_, %Message{} = message, _) do
-    IO.inspect message
+  def handle_message(_, %Message{data: data} = message, _) do
+    Logger.info fn ->
+      "Scixir.MinioBroadway: receive message with data #{inspect data}"
+    end
+
     message
+    |> Message.update_data(&generate_scissor_events/1)
   end
 
-  defp get_list_name do
-    list_name = Application.get_env(
-      :scixir,
-      :minio_broadway_list_name
-    ) || raise """
-    minio_broadway_list_name is not configured.
+  defp generate_scissor_events(raw_data) do
+    [_timestamp, [data]] = Jason.decode!(raw_data)
 
-    example configuration:
+    events =
+      case data do
+        %{
+          "s3" => %{
+            "bucket" => %{
+              "name" => bucket
+            },
+            "object" => %{
+              "key" => key,
+              "userMetadata" => %{
+                "X-Amz-Meta-Versions" => versions
+              }
+            }
+          }
+        } ->
+          versions
+          |> String.split("|", trim: true)
+          |> Enum.map(fn version ->
+            %Scixir.ScissorEvent{bucket: bucket, key: key, version: version}
+          end)
+        _ ->
+          []
+      end
 
-    config :scixir,
-      minio_broadway_list_name: "some_list"
-    """
+    Logger.debug fn ->
+      "Scixir.MinioBroadway: generate scissor events: #{inspect events}"
+    end
 
-    {list_name, list_name <> "_processing"}
+    events
+  end
+
+  @impl true
+  def handle_batch(:default, messages, _batch_info, _context) do
+    messages
+    |> Enum.map(&Map.get(&1, :data))
+    |> List.flatten()
+    |> append_scissor_events()
+
+    messages
+  end
+
+  defp append_scissor_events([]), do: :ok
+  defp append_scissor_events(events) do
+    {list_name, _} = Scixir.Config.list_name(:scissor)
+    str_events = Enum.map(events, &Jason.encode!(&1))
+
+    {:ok, _} = Redix.command(:redix, ["RPUSH", list_name | str_events])
+
+    Logger.info fn ->
+      "Scixir.MinioBroadway: RPUSH #{length events} events: #{inspect events}"
+    end
+
+    :ok
   end
 end
