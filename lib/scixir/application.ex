@@ -7,6 +7,8 @@ defmodule Scixir.Application do
     import Supervisor.Spec, warn: false
 
     children = [
+      {Redix, name: :redix},
+      {Scixir.MinioBroadway, []},
       supervisor(Scixir.Server.Supervisor, [])
     ]
 

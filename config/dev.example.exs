@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :scixir,
+  minio_broadway_list_name: System.get_env("MINIO_REDIS_NOTIFICATION_KEY")
+
 config :scixir, :redis,
   host: System.get_env("MINIO_REDIS_URL"),
   notification_key: System.get_env("MINIO_REDIS_NOTIFICATION_KEY"),
