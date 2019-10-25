@@ -35,6 +35,8 @@ defmodule Scixir.MixProject do
       {:sweet_xml, "~> 0.6.5"},
       {:flow, "~> 0.14.3"},
 
+      {:briefly, "~> 0.4", github: "CargoSense/briefly"},
+
       {:broadway, "~> 0.4.0"},
       {:off_broadway_redis, "~> 0.4.0"},
 

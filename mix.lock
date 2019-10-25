@@ -1,6 +1,7 @@
 %{
   "arc": {:hex, :arc, "0.10.0", "b2a5dbe4e684c27ce231e2228ea2cc640420eab91dbe6e27b5ed1016a8a39975", [:mix], [{:ex_aws, "~> 2.0", [hex: :ex_aws, repo: "hexpm", optional: true]}, {:ex_aws_s3, "~> 2.0", [hex: :ex_aws_s3, repo: "hexpm", optional: true]}, {:httpoison, "~> 0.13", [hex: :httpoison, repo: "hexpm", optional: false]}, {:poison, "~> 2.2 or ~> 3.1", [hex: :poison, repo: "hexpm", optional: true]}, {:sweet_xml, "~> 0.6", [hex: :sweet_xml, repo: "hexpm", optional: true]}], "hexpm"},
   "artificery": {:hex, :artificery, "0.4.1", "90b1fcedb9034853b36dbea2174f9fc1172bd50b0686a723178103def5c9c1c8", [:mix], [], "hexpm"},
+  "briefly": {:git, "https://github.com/CargoSense/briefly.git", "2526e9674a4e6996137e066a1295ea60962712b8", []},
   "broadway": {:hex, :broadway, "0.4.0", "b8daf580baed44347a9690449f9d8d7a308c1ca086648397d1a88eea893d047e", [:mix], [{:gen_stage, "~> 0.14", [hex: :gen_stage, repo: "hexpm", optional: false]}], "hexpm"},
   "certifi": {:hex, :certifi, "2.4.2", "75424ff0f3baaccfd34b1214184b6ef616d89e420b258bb0a5ea7d7bc628f7f0", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm"},
   "decorator": {:hex, :decorator, "1.2.4", "31dfff6143d37f0b68d0bffb3b9f18ace14fea54d4f1b5e4f86ead6f00d9ff6e", [:mix], [], "hexpm"},

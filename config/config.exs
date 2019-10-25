@@ -10,4 +10,9 @@ config :scixir, :versions,
     "small" => "300x300"
   }
 
+config :briefly,
+  directory: [{:system, "TMPDIR"}, {:system, "TMP"}, {:system, "TEMP"}, "/tmp"],
+  default_prefix: "scixir",
+  default_extname: ""
+
 import_config "#{Mix.env}.exs"
