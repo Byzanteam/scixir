@@ -16,7 +16,8 @@ defmodule Scixir.MinioBroadway do
             OffBroadway.Redis.Producer,
             redis_instance: :redix,
             list_name: list_name,
-            working_list_name: working_list_name
+            working_list_name: working_list_name,
+            receive_interval: 500
           },
           stages: 1
         ]
