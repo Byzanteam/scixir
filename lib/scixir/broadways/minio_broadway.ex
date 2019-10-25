@@ -1,6 +1,8 @@
 defmodule Scixir.MinioBroadway do
   use Broadway
 
+  alias Broadway.Message
+
   def start_link(_opts) do
     {list_name, working_list_name} = get_list_name()
 
@@ -23,6 +25,12 @@ defmodule Scixir.MinioBroadway do
     )
   end
 
+  @impl true
+  def handle_message(_, %Message{} = message, _) do
+    IO.inspect message
+    message
+  end
+
   defp get_list_name do
     list_name = Application.get_env(
       :scixir,
@@ -30,9 +38,10 @@ defmodule Scixir.MinioBroadway do
     ) || raise """
     minio_broadway_list_name is not configured.
 
-    config :scixir,
-    minio_broadway_list_name: "some_list"
+    example configuration:
 
+    config :scixir,
+      minio_broadway_list_name: "some_list"
     """
 
     {list_name, list_name <> "_processing"}
