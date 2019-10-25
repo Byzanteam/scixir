@@ -5,6 +5,7 @@ defmodule Scixir.Application do
 
   def start(_type, _args) do
     children = [
+      Scixir.Downloader,
       {Redix, name: :redix},
       {Scixir.MinioBroadway, []}
     ]
