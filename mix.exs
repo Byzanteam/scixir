@@ -24,24 +24,13 @@ defmodule Scixir.MixProject do
     [
       {:mogrify, "~> 0.7.0"},
       {:redix, ">= 0.0.0"},
-
       {:jason, "~> 1.1"},
-      {:gen_stage, "~> 0.14"},
-      {:arc, "0.10.0"},
-      {:elixir_uuid, "~> 1.2"},
-      {:ex_aws, "~> 2.1"},
-      {:ex_aws_s3, "~> 2.0"},
-      {:httpoison, "~> 1.4.0", override: true},
-      {:sweet_xml, "~> 0.6.5"},
-      {:flow, "~> 0.14.3"},
-
       {:briefly, "~> 0.4", github: "CargoSense/briefly"},
+      {:ex_aws_s3, "~> 2.0"},
 
       {:broadway, "~> 0.4.0"},
       {:off_broadway_redis, "~> 0.4.0"},
 
-      {:decorator, "~> 1.2"},
-      {:distillery, "~> 2.0"},
       {:logger_file_backend, github: "onkel-dirtus/logger_file_backend", only: [:prod, :dev]}
     ]
   end
