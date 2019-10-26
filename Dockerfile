@@ -18,9 +18,11 @@ ENV APP_NAME=${APP_NAME} \
   APP_VSN=${APP_VSN} \
   MIX_ENV=${MIX_ENV}
 
-COPY . .
+COPY mix.exs mix.lock ./
 
 RUN mix do deps.get, deps.compile
+
+COPY . .
 
 RUN mix compile
 RUN mix release
