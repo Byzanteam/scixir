@@ -55,34 +55,34 @@ defmodule Scixir.Downloader do
     {bucket, key}
   end
 
-  defp do_download(%ScissorEvent{bucket: bucket, key: key}) do
+  defp do_download(%ScissorEvent{bucket: bucket, key: key} = event) do
+    Logger.info fn ->
+      "started to download file #{inspect event}"
+    end
+
     with(
       {:ok, dest_path} <- Briefly.create(),
-      {:ok, :done} <- bucket |> ExAws.S3.download_file(object_path(key), dest_path) |> ExAws.request
+      {:ok, :done} <- bucket |> ExAws.S3.download_file(key, dest_path) |> ExAws.request
     ) do
       {:ok, dest_path}
     else
       {:too_many_attempts, tmp, attempts} ->
-        Logger.warn fn ->
+        Logger.debug fn ->
           "tried #{attempts} times to create a temporary file at #{tmp} but failed. What gives?"
         end
         :error
 
       {:no_tmp, _tmps} ->
-        Logger.warn fn ->
+        Logger.debug fn ->
           "could not create a tmp directory to store temporary files. Set the :briefly :directory application setting to a directory with write permission"
         end
         :error
 
      error ->
-       Logger.warn fn ->
+       Logger.debug fn ->
          "coundl not download file, reason: #{inspect error}"
        end
       :error
     end
-  end
-
-  defp object_path(key) do
-    key |> URI.decode()
   end
 end
