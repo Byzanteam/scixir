@@ -6,7 +6,14 @@ defmodule Scixir.Application do
   def start(_type, _args) do
     children = [
       Scixir.Downloader,
-      {Redix, name: :redix},
+      %{
+        id: Redix,
+        start: {
+          Redix,
+          :start_link,
+          [Application.fetch_env!(:scixir, :redis_uri), [name: :redix]]
+        }
+      },
       {Scixir.MinioBroadway, []},
       {Scixir.ScissorBroadway, []}
     ]

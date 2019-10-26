@@ -1,13 +1,9 @@
 use Mix.Config
 
 config :scixir,
-  minio_broadway_list_name: System.get_env("MINIO_REDIS_NOTIFICATION_KEY")
+  redis_uri: System.get_env("SCIXIR_REDIS_URI"),
+  minio_broadway_list_name: System.get_env("SCIXIR_MINIO_BROADWAY_LIST_NAME")
   scissor_broadway_list_name: System.get_env("SCIXIR_SCISSOR_BROADWAY_LIST_NAME")
-
-config :scixir, :redis,
-  host: System.get_env("MINIO_REDIS_URL"),
-  notification_key: System.get_env("MINIO_REDIS_NOTIFICATION_KEY"),
-  worker: System.get_env("MINIO_REDIS_LISTENER_WORKER")
 
 config :ex_aws,
   access_key_id: System.get_env("MINIO_ACCESS_KEY"),
