@@ -1,0 +1,13 @@
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+
+.tool-versions
+
+_build/
+deps/
+.formatter.exs
+Makefile
+README*
+**/test/
