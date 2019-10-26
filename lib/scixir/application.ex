@@ -19,10 +19,5 @@ defmodule Scixir.Application do
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
-
-    receive do
-      {:DOWN, _, _, _, _} ->
-        :ok
-    end
   end
 end
