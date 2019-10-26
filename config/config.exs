@@ -1,4 +1,4 @@
-use Mix.Config
+use Config
 
 config :logger, :console,
   format: "$dateT$time $metadata[$level] $levelpad$message\n"

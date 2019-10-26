@@ -1,4 +1,4 @@
-use Mix.Config
+use Config
 
 config :logger,
   backends: [{LoggerFileBackend, :file}, :console]
