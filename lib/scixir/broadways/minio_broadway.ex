@@ -48,6 +48,16 @@ defmodule Scixir.MinioBroadway do
       case data do
         %{
           "s3" => %{
+            "object" => %{
+              "userMetadata" => %{
+                "X-Amz-Meta-Scixir-Generated" => "true"
+              }
+            }
+          }
+        } ->
+          []
+        %{
+          "s3" => %{
             "bucket" => %{
               "name" => bucket
             },
