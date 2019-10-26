@@ -34,7 +34,7 @@ defmodule Scixir.MinioBroadway do
   @impl true
   def handle_message(_, %Message{data: data} = message, _) do
     Logger.info fn ->
-      "Scixir.MinioBroadway: receive message with data #{inspect data}"
+      "MinioBroadway: receive message with data #{inspect data}"
     end
 
     message
@@ -79,7 +79,7 @@ defmodule Scixir.MinioBroadway do
       end
 
     Logger.debug fn ->
-      "Scixir.MinioBroadway: generate scissor events: #{inspect events}"
+      "MinioBroadway: generate scissor events: #{inspect events}"
     end
 
     events
@@ -103,7 +103,7 @@ defmodule Scixir.MinioBroadway do
     {:ok, _} = Redix.command(:redix, ["RPUSH", list_name | str_events])
 
     Logger.info fn ->
-      "Scixir.MinioBroadway: RPUSH #{length events} events: #{inspect events}"
+      "MinioBroadway: RPUSH #{length events} events: #{inspect events}"
     end
 
     :ok

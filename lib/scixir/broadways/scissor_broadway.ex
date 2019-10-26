@@ -39,7 +39,7 @@ defmodule Scixir.ScissorBroadway do
   @impl true
   def handle_message(_, %Message{data: data} = message, _) do
     Logger.info fn ->
-      "Scixir.ScissorBroadway: received message with data #{inspect data}"
+      "ScissorBroadway: received message with data #{inspect data}"
     end
 
     process_event(data)
@@ -58,7 +58,7 @@ defmodule Scixir.ScissorBroadway do
 
   defp process_event(%{attempts: attempts} = event) when attempts >= @max_attempts do
     Logger.warn fn ->
-      "Scixir.ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
+      "ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
     end
   end
   defp process_event(%ScissorEvent{} = event) do
@@ -72,20 +72,20 @@ defmodule Scixir.ScissorBroadway do
       File.rm_rf(dest_path)
 
       Logger.info(fn ->
-        "Scixir.ScissorBroadway: process successfully: #{inspect event}"
+        "ScissorBroadway: process successfully: #{inspect event}"
       end)
     else
       {:error, :download_failed} ->
         prepend_scissor_event(event)
 
         Logger.warn fn ->
-          "Scixir.ScissorBroadway: failed to download image: #{inspect event}"
+          "ScissorBroadway: failed to download image: #{inspect event}"
         end
       error ->
         prepend_scissor_event(event)
 
         Logger.warn fn ->
-          "Scixir.ScissorBroadway: failed to process image: #{inspect event}, reason: #{inspect error}"
+          "ScissorBroadway: failed to process image: #{inspect event}, reason: #{inspect error}"
         end
     end
   end
@@ -98,7 +98,7 @@ defmodule Scixir.ScissorBroadway do
     {:ok, _} = Redix.command(:redix, ["LPUSH", list_name, str_event])
 
     Logger.info fn ->
-      "Scixir.ScissorBroadway: LPUSH a retry scissor event: #{inspect event}"
+      "ScissorBroadway: LPUSH a retry scissor event: #{inspect event}"
     end
 
     :ok

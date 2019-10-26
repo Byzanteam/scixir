@@ -64,6 +64,9 @@ defmodule Scixir.Downloader do
       {:ok, dest_path} <- Briefly.create(),
       {:ok, :done} <- bucket |> ExAws.S3.download_file(key, dest_path) |> ExAws.request
     ) do
+      Logger.info fn ->
+        "finished download file #{inspect event}"
+      end
       {:ok, dest_path}
     else
       {:too_many_attempts, tmp, attempts} ->
