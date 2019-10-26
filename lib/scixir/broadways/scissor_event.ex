@@ -10,6 +10,14 @@ defmodule Scixir.ScissorEvent do
     attempts: non_neg_integer()
   }
 
+  def transform_message(%{} = message, _opts) do
+    Broadway.Message.update_data(message, fn raw_data ->
+      raw_data
+      |> Jason.decode!(keys: :atoms!)
+      |> normalize()
+    end)
+  end
+
   def normalize(%{key: key} = map) do
     %{struct(__MODULE__, map) | key: URI.decode(key)}
   end

@@ -22,7 +22,8 @@ defmodule Scixir.ScissorBroadway do
             working_list_name: working_list_name,
             receive_interval: 500
           },
-          stages: 1
+          stages: 1,
+          transformer: {Scixir.ScissorEvent, :transform_message, []}
         ]
       ],
       processors: [
@@ -42,31 +43,36 @@ defmodule Scixir.ScissorBroadway do
     message
   end
 
-  defp process_event(raw_data) do
-    raw_data
-    |> Jason.decode!(keys: :atoms!)
-    |> (fn data -> struct(ScissorEvent, data) end).()
-    |> case do
-      %{attempts: attempts} = event when attempts >= @max_attempts ->
-        Logger.warn fn ->
-          "Scixir.ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
-        end
-
-        :ok
-      event ->
-        process_scissor_event(event)
+  defp process_event(%{attempts: attempts} = event) when attempts >= @max_attempts do
+    Logger.warn fn ->
+      "Scixir.ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
     end
   end
+  defp process_event(%ScissorEvent{} = event) do
+    with(
+      {:ok, path} <- Scixir.Downloader.download(event),
+      {:ok, dest_path} <- Briefly.create(),
+      %{path: ^dest_path} <- Scixir.Scissor.process(event, image_path: path, dest_path: dest_path),
+      {:ok, _} <- Scixir.Uploader.upload(event, dest_path)
+    ) do
+      Scixir.Downloader.remove(event)
+      File.rm_rf(dest_path)
 
-  defp process_scissor_event(%ScissorEvent{} = event) do
-    case Scixir.Downloader.download(event) do
-      {:ok, path} ->
-        IO.inspect path
-      :error ->
+      Logger.info(fn ->
+        "Scixir.ScissorBroadway: process successfully: #{inspect event}"
+      end)
+    else
+      {:error, :download_failed} ->
         prepend_scissor_event(event)
 
         Logger.warn fn ->
-          "Scixir.ScissorBroadway: failed to process event #{inspect event}"
+          "Scixir.ScissorBroadway: failed to download image: #{inspect event}"
+        end
+      error ->
+        prepend_scissor_event(event)
+
+        Logger.warn fn ->
+          "Scixir.ScissorBroadway: failed to process image: #{inspect event}, reason: #{inspect error}"
         end
     end
   end
