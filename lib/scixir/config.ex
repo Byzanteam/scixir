@@ -35,4 +35,9 @@ defmodule Scixir.Config do
 
     {list_name, list_name <> "_processing"}
   end
+
+  @doc false
+  def versions do
+    Application.get_env(:scixir, :versions, %{})
+  end
 end
