@@ -1,8 +1,8 @@
 import Config
 
 config :scixir,
-  redis_uri: System.fetch_env!("SCIXIR_REDIS_URI"),
-  minio_broadway_list_name: System.fetch_env!("SCIXIR_MINIO_BROADWAY_LIST_NAME"),
+  redis_uri: System.fetch_env!("MINIO_REDIS_URL"),
+  minio_broadway_list_name: System.fetch_env!("MINIO_REDIS_NOTIFICATION_KEY"),
   scissor_broadway_list_name: System.fetch_env!("SCIXIR_SCISSOR_BROADWAY_LIST_NAME")
 
 config :ex_aws,
