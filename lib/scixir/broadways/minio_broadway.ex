@@ -44,45 +44,38 @@ defmodule Scixir.MinioBroadway do
   defp generate_scissor_events(raw_data) do
     [_timestamp, [data]] = Jason.decode!(raw_data)
 
-    events =
-      case data do
-        %{
-          "s3" => %{
-            "object" => %{
-              "userMetadata" => %{
-                "X-Amz-Meta-Scixir-Generated" => "true"
-              }
+    case data do
+      %{
+        "s3" => %{
+          "object" => %{
+            "userMetadata" => %{
+              "X-Amz-Meta-Scixir-Generated" => "true"
             }
           }
-        } ->
-          []
-        %{
-          "s3" => %{
-            "bucket" => %{
-              "name" => bucket
-            },
-            "object" => %{
-              "key" => key,
-              "userMetadata" => %{
-                "X-Amz-Meta-Versions" => versions
-              }
+        }
+      } ->
+        []
+      %{
+        "s3" => %{
+          "bucket" => %{
+            "name" => bucket
+          },
+          "object" => %{
+            "key" => key,
+            "userMetadata" => %{
+              "X-Amz-Meta-Versions" => versions
             }
           }
-        } ->
-          versions
-          |> String.split("|", trim: true)
-          |> Enum.map(fn version ->
-            %Scixir.ScissorEvent{bucket: bucket, key: key, version: version}
-          end)
-        _ ->
-          []
-      end
-
-    Logger.debug fn ->
-      "MinioBroadway: generate scissor events: #{inspect events}"
+        }
+      } ->
+        versions
+        |> String.split("|", trim: true)
+        |> Enum.map(fn version ->
+          %Scixir.ScissorEvent{bucket: bucket, key: key, version: version}
+        end)
+      _ ->
+        []
     end
-
-    events
   end
 
   @impl true
