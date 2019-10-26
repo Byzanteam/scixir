@@ -7,7 +7,8 @@ defmodule Scixir.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9.2",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: releases(),
     ]
   end
 
@@ -32,6 +33,14 @@ defmodule Scixir.MixProject do
       {:off_broadway_redis, "~> 0.4.0"},
 
       {:logger_file_backend, github: "onkel-dirtus/logger_file_backend", only: [:prod, :dev]}
+    ]
+  end
+
+  defp releases do
+    [
+      scixir: [
+        include_executables_for: [:unix]
+      ]
     ]
   end
 end
