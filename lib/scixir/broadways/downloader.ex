@@ -13,14 +13,19 @@ defmodule Scixir.Downloader do
     key = key(event)
 
     Agent.get_and_update __MODULE__, fn
-      %{^key => %{path: path, versions: versions}} = state ->
-        versions = MapSet.put(versions, version)
-        {path, update_in(state, [key, :versions], versions)}
+      %{^key => %{path: path}} = state ->
+        {
+          {:ok, path},
+          update_in(state, [key, :versions], fn versions ->
+            MapSet.put(versions, version)
+          end)
+        }
       state ->
         case do_download(event) do
           {:ok, path} ->
-            versions = MapSet.new([version])
-            {{:ok, path}, Map.put(state, key, %{path: path, versions: versions})}
+            new_state =
+              Map.put(state, key, %{path: path, versions: MapSet.new([version])})
+            {{:ok, path}, new_state}
           :error ->
             {{:error, :download_failed}, state}
         end
@@ -39,7 +44,7 @@ defmodule Scixir.Downloader do
             File.rm_rf(path)
             Map.delete(state, key)
           _ ->
-            update_in(state, [key, :versions], new_versions)
+            update_in(state, [key, :versions], fn _ -> new_versions end)
         end
       state ->
         state
