@@ -27,7 +27,11 @@ defmodule Scixir.MixProject do
       {:redix, ">= 0.0.0"},
       {:jason, "~> 1.1"},
       {:briefly, "~> 0.4", github: "CargoSense/briefly"},
+
+      {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
 
       {:broadway, "~> 0.4.0"},
       {:off_broadway_redis, "~> 0.4.0"}
