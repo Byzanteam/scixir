@@ -9,4 +9,22 @@ defmodule Scixir.ScissorEvent do
     version: binary(),
     attempts: non_neg_integer()
   }
+
+  def normalize(%{key: key} = map) do
+    %{struct(__MODULE__, map) | key: URI.decode(key)}
+  end
+
+  defimpl Inspect do
+    import Inspect.Algebra
+
+    def inspect(%{key: key, bucket: bucket, version: version, attempts: attempts}, opts) do
+      concat([
+        "#ScissorEvent<",
+        group(concat([to_string(key), "@", to_string(bucket), "#", to_string(version)])),
+        " ",
+        group(space("attempts:", to_doc(attempts, opts))),
+        ">"
+      ])
+    end
+  end
 end
