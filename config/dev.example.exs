@@ -1,4 +1,4 @@
-use Config
+import Config
 
 config :scixir,
   redis_uri: System.get_env("SCIXIR_REDIS_URI"),

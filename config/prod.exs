@@ -1,4 +1,4 @@
-use Config
+import Config
 
 config :logger,
   backends: [{LoggerFileBackend, :file}, :console]

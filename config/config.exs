@@ -1,4 +1,4 @@
-use Config
+import Config
 
 config :logger, :console,
   format: "$dateT$time $metadata[$level] $levelpad$message\n"
