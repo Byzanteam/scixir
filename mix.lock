@@ -5,7 +5,6 @@
   "ex_aws_s3": {:hex, :ex_aws_s3, "2.0.1", "9e09366e77f25d3d88c5393824e613344631be8db0d1839faca49686e99b6704", [:mix], [{:ex_aws, "~> 2.0", [hex: :ex_aws, repo: "hexpm", optional: false]}, {:sweet_xml, ">= 0.0.0", [hex: :sweet_xml, repo: "hexpm", optional: true]}], "hexpm"},
   "gen_stage": {:hex, :gen_stage, "0.14.1", "9d46723fda072d4f4bb31a102560013f7960f5d80ea44dcb96fd6304ed61e7a4", [:mix], [], "hexpm"},
   "jason": {:hex, :jason, "1.1.2", "b03dedea67a99223a2eaf9f1264ce37154564de899fd3d8b9a21b1a6fd64afe7", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
-  "logger_file_backend": {:git, "https://github.com/onkel-dirtus/logger_file_backend.git", "05cc89fab4c13155609c61235d7844b1c9cd9797", []},
   "mogrify": {:hex, :mogrify, "0.7.0", "f7af9a42a3b17818c9841dcfa12f7416c4c34078872eb79b2dc55e15670c3a7f", [:mix], [], "hexpm"},
   "off_broadway_redis": {:hex, :off_broadway_redis, "0.4.1", "b2c8d74c88db0864d82bad3226ea94ecaf0ce74a17ed7875a2410cf03549ba54", [:mix], [{:broadway, "~> 0.4.0", [hex: :broadway, repo: "hexpm", optional: false]}, {:redix, "~> 0.10.2", [hex: :redix, repo: "hexpm", optional: false]}], "hexpm"},
   "redix": {:hex, :redix, "0.10.2", "a9eabf47898aa878650df36194aeb63966d74f5bd69d9caa37babb32dbb93c5d", [:mix], [{:telemetry, "~> 0.4.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm"},

@@ -30,9 +30,7 @@ defmodule Scixir.MixProject do
       {:ex_aws_s3, "~> 2.0"},
 
       {:broadway, "~> 0.4.0"},
-      {:off_broadway_redis, "~> 0.4.0"},
-
-      {:logger_file_backend, github: "onkel-dirtus/logger_file_backend", only: [:prod, :dev]}
+      {:off_broadway_redis, "~> 0.4.0"}
     ]
   end
 
