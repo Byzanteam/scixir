@@ -47,6 +47,15 @@ defmodule Scixir.ScissorBroadway do
     message
   end
 
+  @impl true
+  def handle_failed(messages, _) do
+    Enum.each(messages, fn %{data: event} ->
+      prepend_scissor_event(event)
+    end)
+
+    messages
+  end
+
   defp process_event(%{attempts: attempts} = event) when attempts >= @max_attempts do
     Logger.warn fn ->
       "Scixir.ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
