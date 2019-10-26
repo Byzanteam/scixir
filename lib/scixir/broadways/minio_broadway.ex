@@ -23,7 +23,7 @@ defmodule Scixir.MinioBroadway do
         ]
       ],
       processors: [
-        default: [stages: 10]
+        default: [stages: 1]
       ],
       batchers: [
         default: [stages: 1, batch_size: 10],
