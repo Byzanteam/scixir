@@ -33,7 +33,7 @@ defmodule Scixir.MixProject do
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
 
-      {:broadway, "~> 0.4.0"},
+      {:broadway, "~> 0.5.0", github: "plataformatec/broadway", override: true},
       {:off_broadway_redis, "~> 0.4.0"}
     ]
   end
