@@ -8,6 +8,8 @@ defmodule Scixir.MinioBroadway do
   def start_link(_opts) do
     {list_name, working_list_name} = Scixir.Config.list_name(:minio)
 
+    Scixir.Util.repush_working_messages(list_name, working_list_name)
+
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
       producers: [
