@@ -38,7 +38,9 @@ defmodule Scixir.Config do
 
   @doc false
   def scissor_processor_stages do
-    Application.get_env(:scixir, :scissor_processor_stages) || 10
+    String.to_integer(
+      Application.get_env(:scixir, :scissor_processor_stages)
+    ) || 10
   end
 
   @doc false
