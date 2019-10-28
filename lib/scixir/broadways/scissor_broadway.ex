@@ -15,18 +15,16 @@ defmodule Scixir.ScissorBroadway do
 
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
-      producers: [
-        default: [
-          module: {
-            OffBroadway.Redis.Producer,
-            redis_instance: :redix,
-            list_name: list_name,
-            working_list_name: working_list_name,
-            receive_interval: 500
-          },
-          stages: 1,
-          transformer: {Scixir.ScissorEvent, :transform_message, []}
-        ]
+      producer: [
+        module: {
+          OffBroadway.Redis.Producer,
+          redis_instance: :redix,
+          list_name: list_name,
+          working_list_name: working_list_name,
+          receive_interval: 500
+        },
+        stages: 1,
+        transformer: {Scixir.ScissorEvent, :transform_message, []}
       ],
       processors: [
         default: [
