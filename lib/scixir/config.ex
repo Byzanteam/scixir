@@ -37,6 +37,11 @@ defmodule Scixir.Config do
   end
 
   @doc false
+  def scissor_processor_stages do
+    Application.get_env(:scixir, :scissor_processor_stages) || 10
+  end
+
+  @doc false
   def versions do
     Application.fetch_env!(:scixir, :versions)
   end

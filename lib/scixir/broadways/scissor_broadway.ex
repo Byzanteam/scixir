@@ -28,7 +28,7 @@ defmodule Scixir.ScissorBroadway do
       ],
       processors: [
         default: [
-          stages: 10,
+          stages: Scixir.Config.scissor_processor_stages(),
           min_demand: 0, # Make sure processor request one event once
           max_demand: 1
         ]

@@ -4,7 +4,8 @@ config :scixir,
   redis_uri: System.get_env("SCIXIR_MINIO_REDIS_URL"),
   minio_broadway_list_name: System.get_env("SCIXIR_MINIO_BROADWAY_LIST_NAME"),
   scissor_broadway_list_name: System.get_env("SCIXIR_SCISSOR_BROADWAY_LIST_NAME"),
-  versions: System.get_env("SCIXIR_VERSIONS")
+  versions: System.get_env("SCIXIR_VERSIONS"),
+  scissor_processor_stages: System.get_env("SCIXIR_SCISSOR_PROCESSOR_STAGES")
 
 config :ex_aws,
   access_key_id: System.get_env("SCIXIR_MINIO_ACCESS_KEY"),
