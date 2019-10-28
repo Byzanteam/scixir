@@ -38,6 +38,16 @@ defmodule Scixir.Config do
 
   @doc false
   def versions do
-    Application.get_env(:scixir, :versions, %{})
+    Application.fetch_env!(:scixir, :versions)
+  end
+
+  @doc false
+  def update_versions_config do
+    case Application.fetch_env!(:scixir, :versions) do
+      versions when is_binary(versions) ->
+        Application.put_env(:scixir, :versions, Jason.decode!(versions))
+      versions when is_map(versions) ->
+        versions
+    end
   end
 end

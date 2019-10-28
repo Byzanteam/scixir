@@ -18,6 +18,8 @@ defmodule Scixir.Application do
       {Scixir.ScissorBroadway, []}
     ]
 
+    Scixir.Config.update_versions_config()
+
     Supervisor.start_link(children, strategy: :one_for_one)
   end
 end
