@@ -38,10 +38,14 @@ defmodule Scixir.Config do
 
   @doc false
   def scissor_processor_stages do
-    String.to_integer(
+    cast_scissor_processor_stages(
       Application.get_env(:scixir, :scissor_processor_stages)
-    ) || 10
+    )
   end
+
+  defp cast_scissor_processor_stages(integer) when is_integer(integer), do: integer
+  defp cast_scissor_processor_stages(str) when is_binary(str), do: String.to_integer(str)
+  defp cast_scissor_processor_stages(nil), do: 10
 
   @doc false
   def versions do
