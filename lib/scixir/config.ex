@@ -47,16 +47,47 @@ defmodule Scixir.Config do
   defp cast_scissor_processor_stages(str) when is_binary(str), do: String.to_integer(str)
   defp cast_scissor_processor_stages(nil), do: 10
 
-  @doc false
+  @doc """
+  ```elixir
+  %{
+    project_cover_image: %{
+      default: %{
+        resize: %{
+          width: 265,
+          height: 165,
+          type: :fill
+        },
+        gravity: "center",
+        strip: true
+      }
+    },
+    project_attachment: %{
+      thumbnail: %{
+        resize: %{
+          width: 265,
+          height: 165,
+          type: :fill
+        },
+        gravity: "center",
+        strip: true
+      }
+    }
+  }
+  ```
+  """
   def versions do
     Application.fetch_env!(:scixir, :versions)
   end
 
   @doc false
-  def update_versions_config do
+  def normalize_versions_config do
     case Application.fetch_env!(:scixir, :versions) do
       versions when is_binary(versions) ->
-        Application.put_env(:scixir, :versions, Jason.decode!(versions))
+        Application.put_env(
+          :scixir,
+          :versions,
+          versions |> Base.decode64!() |> Jason.decode!()
+        )
       versions when is_map(versions) ->
         versions
     end
