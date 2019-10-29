@@ -37,12 +37,18 @@ defmodule Scixir.ScissorBroadway do
   end
 
   @impl true
-  def handle_message(_, %Message{data: data} = message, _) do
+  def handle_message(_, %Message{data: event} = message, _) do
     Logger.info fn ->
-      "ScissorBroadway: received message with data #{inspect data}"
+      "ScissorBroadway: received message with data #{inspect event}"
     end
 
-    process_event(data)
+    if version_valid?(event) do
+      process_event(event)
+    else
+      Logger.info fn ->
+        "ScissorBroadway: skip message #{inspect event}"
+      end
+    end
 
     message
   end
@@ -102,5 +108,12 @@ defmodule Scixir.ScissorBroadway do
     end
 
     :ok
+  end
+
+  defp version_valid?(%ScissorEvent{version: version, purpose: purpose}) do
+    not is_nil gen_in(
+      Scixir.Config.versions(),
+      [String.atom(purpose), String.atom(version)]
+    )
   end
 end
