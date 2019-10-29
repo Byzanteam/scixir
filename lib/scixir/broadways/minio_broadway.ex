@@ -67,6 +67,7 @@ defmodule Scixir.MinioBroadway do
             "key" => key,
             "userMetadata" => %{
               "X-Amz-Meta-Versions" => versions
+              "X-Amz-Meta-Purpose" => purpose
             }
           }
         }
@@ -74,7 +75,7 @@ defmodule Scixir.MinioBroadway do
         versions
         |> String.split("|", trim: true)
         |> Enum.map(fn version ->
-          %Scixir.ScissorEvent{bucket: bucket, key: key, version: version}
+          %Scixir.ScissorEvent{bucket: bucket, key: key, version: version, purpose: purpose}
         end)
       event ->
         Logger.warn fn ->
