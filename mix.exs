@@ -23,7 +23,7 @@ defmodule Scixir.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mogrify, "~> 0.7.0"},
+      {:gmex, "~> 0.1.6"},
       {:redix, ">= 0.0.0"},
       {:jason, "~> 1.1"},
       {:briefly, "~> 0.4", github: "CargoSense/briefly"},
