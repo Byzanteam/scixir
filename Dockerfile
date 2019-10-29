@@ -29,7 +29,7 @@ RUN mix release
 
 FROM alpine:${ALPINE_VERSION}
 
-RUN apk add --update bash openssl imagemagick
+RUN apk add --update bash openssl graphicsmagick
 
 ENV APP_NAME=scixir
 
