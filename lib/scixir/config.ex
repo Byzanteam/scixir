@@ -86,7 +86,7 @@ defmodule Scixir.Config do
         Application.put_env(
           :scixir,
           :versions,
-          versions |> Base.decode64!() |> Jason.decode!()
+          versions |> Base.decode64!() |> Jason.decode!(keys: :atoms)
         )
       versions when is_map(versions) ->
         versions
