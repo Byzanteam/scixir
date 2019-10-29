@@ -53,7 +53,10 @@ defmodule Scixir.MinioBroadway do
             }
           }
         }
-      } ->
+      } = event ->
+        Logger.debug fn ->
+          "MinioBroadway: received scixir-generated event #{inspect event}"
+        end
         []
       %{
         "s3" => %{
@@ -73,7 +76,10 @@ defmodule Scixir.MinioBroadway do
         |> Enum.map(fn version ->
           %Scixir.ScissorEvent{bucket: bucket, key: key, version: version}
         end)
-      _ ->
+      event ->
+        Logger.warn fn ->
+          "MinioBroadway: can not handle event #{inspect event}"
+        end
         []
     end
   end
