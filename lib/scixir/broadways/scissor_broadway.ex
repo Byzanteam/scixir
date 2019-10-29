@@ -21,7 +21,7 @@ defmodule Scixir.ScissorBroadway do
           redis_instance: :redix,
           list_name: list_name,
           working_list_name: working_list_name,
-          receive_interval: 500
+          receive_interval: 50
         },
         stages: 1,
         transformer: {Scixir.ScissorEvent, :transform_message, []}

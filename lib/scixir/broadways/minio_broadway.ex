@@ -18,7 +18,7 @@ defmodule Scixir.MinioBroadway do
           redis_instance: :redix,
           list_name: list_name,
           working_list_name: working_list_name,
-          receive_interval: 500
+          receive_interval: 50
         },
         stages: 1
       ],
@@ -26,7 +26,10 @@ defmodule Scixir.MinioBroadway do
         default: [stages: 1]
       ],
       batchers: [
-        default: [stages: 1, batch_size: 10],
+        default: [
+          stages: 1,
+          batch_size: 1
+        ],
       ]
     )
   end
