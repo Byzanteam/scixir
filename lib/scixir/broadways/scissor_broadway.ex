@@ -111,9 +111,9 @@ defmodule Scixir.ScissorBroadway do
   end
 
   defp version_valid?(%ScissorEvent{version: version, purpose: purpose}) do
-    not is_nil gen_in(
+    not is_nil get_in(
       Scixir.Config.versions(),
-      [String.atom(purpose), String.atom(version)]
+      [String.to_atom(purpose), String.to_atom(version)]
     )
   end
 end
