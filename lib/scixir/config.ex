@@ -86,10 +86,24 @@ defmodule Scixir.Config do
         Application.put_env(
           :scixir,
           :versions,
-          versions |> Base.decode64!() |> Jason.decode!(keys: :atoms)
+          versions |> Base.decode64!() |> Jason.decode!(keys: :atoms) |> atomize_resize_type()
         )
       versions when is_map(versions) ->
         versions
+    end
+  end
+
+  defp atomize_resize_type(config) do
+    Enum.into config, %{}, fn {purpose, purpose_options} ->
+      {
+        purpose,
+        Enum.into(purpose_options, %{}, fn {version, version_options} ->
+          case get_in(version_options, [:resize, :type]) do
+            nil -> {version, version_options}
+            type -> {version, put_in(version_options, [:resize, :type], String.to_atom(type))}
+          end
+        end)
+      }
     end
   end
 end
