@@ -66,7 +66,7 @@ defmodule Scixir.MinioBroadway do
           "object" => %{
             "key" => key,
             "userMetadata" => %{
-              "X-Amz-Meta-Versions" => versions
+              "X-Amz-Meta-Versions" => versions,
               "X-Amz-Meta-Purpose" => purpose
             }
           }
