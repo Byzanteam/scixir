@@ -64,8 +64,8 @@ defmodule Scixir.Config do
     project_attachment: %{
       thumbnail: %{
         resize: %{
-          width: 265,
-          height: 165,
+          width: 128,
+          height: 96,
           type: :fill
         },
         gravity: "center",
