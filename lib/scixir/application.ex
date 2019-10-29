@@ -4,18 +4,22 @@ defmodule Scixir.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     children = [
-      supervisor(Scixir.Server.Supervisor, [])
+      Scixir.Downloader,
+      %{
+        id: Redix,
+        start: {
+          Redix,
+          :start_link,
+          [Application.fetch_env!(:scixir, :redis_uri), [name: :redix]]
+        }
+      },
+      {Scixir.MinioBroadway, []},
+      {Scixir.ScissorBroadway, []}
     ]
 
-    opts = [strategy: :one_for_one]
-    Supervisor.start_link(children, opts)
+    Scixir.Config.normalize_versions_config()
 
-    receive do
-      {:DOWN, _, _, _, _} ->
-        :ok
-    end
+    Supervisor.start_link(children, strategy: :one_for_one)
   end
 end
