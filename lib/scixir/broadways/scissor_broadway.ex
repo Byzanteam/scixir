@@ -71,7 +71,7 @@ defmodule Scixir.ScissorBroadway do
     with(
       {:ok, path} <- Scixir.Downloader.download(event),
       {:ok, dest_path} <- Briefly.create(),
-      %{path: ^dest_path} <- Scixir.Scissor.process(event, image_path: path, dest_path: dest_path),
+      {:ok, nil} <- Scixir.Scissor.process(event, image_path: path, dest_path: dest_path),
       {:ok, _} <- Scixir.Uploader.upload(event, dest_path)
     ) do
       Scixir.Downloader.remove(event)
