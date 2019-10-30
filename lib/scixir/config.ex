@@ -6,41 +6,44 @@ defmodule Scixir.Config do
   `:scissor` for ScissorBroadway
   """
   def list_name(:minio) do
-    list_name = Application.get_env(
-      :scixir,
-      :minio_broadway_list_name
-    ) || raise """
-    minio_broadway_list_name is not configured.
+    list_name =
+      Application.get_env(
+        :scixir,
+        :minio_broadway_list_name
+      ) ||
+        raise """
+        minio_broadway_list_name is not configured.
 
-    example configuration:
+        example configuration:
 
-    config :scixir,
-      minio_broadway_list_name: "some_list"
-    """
+        config :scixir,
+          minio_broadway_list_name: "some_list"
+        """
 
     {list_name, list_name <> "_processing"}
   end
+
   def list_name(:scissor) do
-    list_name = Application.get_env(
-      :scixir,
-      :scissor_broadway_list_name
-    ) || raise """
-    scissor_broadway_list_name is not configured.
+    list_name =
+      Application.get_env(
+        :scixir,
+        :scissor_broadway_list_name
+      ) ||
+        raise """
+        scissor_broadway_list_name is not configured.
 
-    example configuration:
+        example configuration:
 
-    config :scixir,
-      scissor_broadway_list_name: "some_list"
-    """
+        config :scixir,
+          scissor_broadway_list_name: "some_list"
+        """
 
     {list_name, list_name <> "_processing"}
   end
 
   @doc false
   def scissor_processor_stages do
-    cast_scissor_processor_stages(
-      Application.get_env(:scixir, :scissor_processor_stages)
-    )
+    cast_scissor_processor_stages(Application.get_env(:scixir, :scissor_processor_stages))
   end
 
   defp cast_scissor_processor_stages(integer) when is_integer(integer), do: integer
@@ -88,13 +91,14 @@ defmodule Scixir.Config do
           :versions,
           versions |> Base.decode64!() |> Jason.decode!(keys: :atoms) |> atomize_resize_type()
         )
+
       versions when is_map(versions) ->
         versions
     end
   end
 
   defp atomize_resize_type(config) do
-    Enum.into config, %{}, fn {purpose, purpose_options} ->
+    Enum.into(config, %{}, fn {purpose, purpose_options} ->
       {
         purpose,
         Enum.into(purpose_options, %{}, fn {version, version_options} ->
@@ -104,6 +108,6 @@ defmodule Scixir.Config do
           end
         end)
       }
-    end
+    end)
   end
 end

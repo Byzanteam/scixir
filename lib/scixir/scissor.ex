@@ -3,11 +3,15 @@ defmodule Scixir.Scissor do
 
   alias Scixir.ScissorEvent
 
-  def process(%ScissorEvent{version: version, purpose: purpose}, image_path: image_path, dest_path: dest_path) do
-    {selected_option, rest_options} = Keyword.split(
-      version_options(purpose, version),
-      [:resize]
-    )
+  def process(%ScissorEvent{version: version, purpose: purpose},
+        image_path: image_path,
+        dest_path: dest_path
+      ) do
+    {selected_option, rest_options} =
+      Keyword.split(
+        version_options(purpose, version),
+        [:resize]
+      )
 
     resize_options =
       case selected_option do
