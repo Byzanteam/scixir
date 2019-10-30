@@ -6,9 +6,11 @@ defmodule Scixir.Util do
   defp do_rpoplpush(working_list_name, list_name) do
     do_rpoplpush(working_list_name, list_name, {:ok, :intial})
   end
+
   defp do_rpoplpush(_working_list_name, _list_name, {:ok, nil}) do
     :ok
   end
+
   defp do_rpoplpush(working_list_name, list_name, {:ok, _val}) do
     do_rpoplpush(
       working_list_name,
