@@ -79,13 +79,13 @@ defmodule Scixir.Downloader do
         Logger.debug fn ->
           "could not create a tmp directory to store temporary files. Set the :briefly :directory application setting to a directory with write permission"
         end
-        :error
+       :error
 
-     error ->
-       Logger.debug fn ->
-         "coundl not download file, reason: #{inspect error}"
-       end
-      :error
+      error ->
+        Logger.debug fn ->
+          "coundl not download file, reason: #{inspect error}"
+        end
+        :error
     end
   end
 end
