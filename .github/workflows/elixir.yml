@@ -14,6 +14,18 @@ jobs:
     container:
       image: elixir:1.9.2-slim
 
+    env:
+      SCIXIR_MINIO_REDIS_URL: redis://redis.localhost:6379/0
+      SCIXIR_MINIO_BROADWAY_LIST_NAME: minio_events
+      SCIXIR_SCISSOR_BROADWAY_LIST_NAME: scissor_events
+      SCIXIR_VERSIONS: eyJwcm9qZWN0X2F0dGFjaG1lbnQiOnsidGh1bWJuYWlsIjp7ImdyYXZpdHkiOiJjZW50ZXIiLCJyZXNpemUiOnsiaGVpZ2h0Ijo5NiwidHlwZSI6ImZpbGwiLCJ3aWR0aCI6MTI4fSwic3RyaXAiOnRydWV9fSwicHJvamVjdF9jb3Zlcl9pbWFnZSI6eyJkZWZhdWx0Ijp7ImdyYXZpdHkiOiJjZW50ZXIiLCJyZXNpemUiOnsiaGVpZ2h0IjoxNjUsInR5cGUiOiJmaWxsIiwid2lkdGgiOjI2NX0sInN0cmlwIjp0cnVlfX19
+      SCIXIR_SCISSOR_PROCESSOR_STAGES: 10
+      SCIXIR_MINIO_ACCESS_KEY:  minio
+      SCIXIR_MINIO_SECRET_KEY: minio123
+      SCIXIR_MINIO_SCHEME: http://
+      SCIXIR_MINIO_HOST: minio
+      SCIXIR_MINIO_PORT: 9090
+
     steps:
     - uses: actions/checkout@v1
     - name: Install Dependencies
