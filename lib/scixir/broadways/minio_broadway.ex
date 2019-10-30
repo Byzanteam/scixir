@@ -29,16 +29,16 @@ defmodule Scixir.MinioBroadway do
         default: [
           stages: 1,
           batch_size: 1
-        ],
+        ]
       ]
     )
   end
 
   @impl true
   def handle_message(_, %Message{data: data} = message, _) do
-    Logger.info fn ->
-      "MinioBroadway: receive message with data #{inspect data}"
-    end
+    Logger.info(fn ->
+      "MinioBroadway: receive message with data #{inspect(data)}"
+    end)
 
     message
     |> Message.update_data(&generate_scissor_events/1)
@@ -57,10 +57,12 @@ defmodule Scixir.MinioBroadway do
           }
         }
       } = event ->
-        Logger.debug fn ->
-          "MinioBroadway: received scixir-generated event #{inspect event}"
-        end
+        Logger.debug(fn ->
+          "MinioBroadway: received scixir-generated event #{inspect(event)}"
+        end)
+
         []
+
       %{
         "s3" => %{
           "bucket" => %{
@@ -80,10 +82,12 @@ defmodule Scixir.MinioBroadway do
         |> Enum.map(fn version ->
           %Scixir.ScissorEvent{bucket: bucket, key: key, version: version, purpose: purpose}
         end)
+
       event ->
-        Logger.warn fn ->
-          "MinioBroadway: can not handle event #{inspect event}"
-        end
+        Logger.warn(fn ->
+          "MinioBroadway: can not handle event #{inspect(event)}"
+        end)
+
         []
     end
   end
@@ -99,15 +103,16 @@ defmodule Scixir.MinioBroadway do
   end
 
   defp append_scissor_events([]), do: :ok
+
   defp append_scissor_events(events) do
     {list_name, _} = Scixir.Config.list_name(:scissor)
     str_events = Enum.map(events, &Jason.encode!(&1))
 
     {:ok, _} = Redix.command(:redix, ["RPUSH", list_name | str_events])
 
-    Logger.info fn ->
-      "MinioBroadway: RPUSH #{length events} events: #{inspect events}"
-    end
+    Logger.info(fn ->
+      "MinioBroadway: RPUSH #{length(events)} events: #{inspect(events)}"
+    end)
 
     :ok
   end

@@ -29,7 +29,8 @@ defmodule Scixir.ScissorBroadway do
       processors: [
         default: [
           stages: Scixir.Config.scissor_processor_stages(),
-          min_demand: 0, # Make sure processor request one event once
+          # Make sure processor request one event once
+          min_demand: 0,
           max_demand: 1
         ]
       ]
@@ -38,16 +39,16 @@ defmodule Scixir.ScissorBroadway do
 
   @impl true
   def handle_message(_, %Message{data: event} = message, _) do
-    Logger.info fn ->
-      "ScissorBroadway: received message with data #{inspect event}"
-    end
+    Logger.info(fn ->
+      "ScissorBroadway: received message with data #{inspect(event)}"
+    end)
 
     if version_valid?(event) do
       process_event(event)
     else
-      Logger.info fn ->
-        "ScissorBroadway: skip message #{inspect event}"
-      end
+      Logger.info(fn ->
+        "ScissorBroadway: skip message #{inspect(event)}"
+      end)
     end
 
     message
@@ -63,10 +64,11 @@ defmodule Scixir.ScissorBroadway do
   end
 
   defp process_event(%{attempts: attempts} = event) when attempts >= @max_attempts do
-    Logger.warn fn ->
-      "ScissorBroadway: reached the max_attempts, failed to process event: #{inspect event}"
-    end
+    Logger.warn(fn ->
+      "ScissorBroadway: reached the max_attempts, failed to process event: #{inspect(event)}"
+    end)
   end
+
   defp process_event(%ScissorEvent{} = event) do
     with(
       {:ok, path} <- Scixir.Downloader.download(event),
@@ -78,21 +80,22 @@ defmodule Scixir.ScissorBroadway do
       File.rm_rf(dest_path)
 
       Logger.info(fn ->
-        "ScissorBroadway: process successfully: #{inspect event}"
+        "ScissorBroadway: process successfully: #{inspect(event)}"
       end)
     else
       {:error, :download_failed} ->
         prepend_scissor_event(event)
 
-        Logger.warn fn ->
-          "ScissorBroadway: failed to download image: #{inspect event}"
-        end
+        Logger.warn(fn ->
+          "ScissorBroadway: failed to download image: #{inspect(event)}"
+        end)
+
       error ->
         prepend_scissor_event(event)
 
-        Logger.warn fn ->
-          "ScissorBroadway: failed to process image: #{inspect event}, reason: #{inspect error}"
-        end
+        Logger.warn(fn ->
+          "ScissorBroadway: failed to process image: #{inspect(event)}, reason: #{inspect(error)}"
+        end)
     end
   end
 
@@ -103,17 +106,19 @@ defmodule Scixir.ScissorBroadway do
 
     {:ok, _} = Redix.command(:redix, ["LPUSH", list_name, str_event])
 
-    Logger.info fn ->
-      "ScissorBroadway: LPUSH a retry scissor event: #{inspect event}"
-    end
+    Logger.info(fn ->
+      "ScissorBroadway: LPUSH a retry scissor event: #{inspect(event)}"
+    end)
 
     :ok
   end
 
   defp version_valid?(%ScissorEvent{version: version, purpose: purpose}) do
-    not is_nil get_in(
-      Scixir.Config.versions(),
-      [String.to_atom(purpose), String.to_atom(version)]
+    not is_nil(
+      get_in(
+        Scixir.Config.versions(),
+        [String.to_atom(purpose), String.to_atom(version)]
+      )
     )
   end
 end
