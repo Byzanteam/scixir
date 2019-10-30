@@ -24,11 +24,12 @@ jobs:
       SCIXIR_MINIO_PORT: 9090
 
     steps:
-    - uses: actions/checkout@v1
     - uses: actions/setup-elixir@v1.0.0
       with:
         otp-version: 22.x
         elixir-version: 1.9.x
+
+    - uses: actions/checkout@v1
 
     - name: Install Dependencies
       run: |
