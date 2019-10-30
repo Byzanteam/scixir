@@ -11,9 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: elixir:1.9.2-slim
-
     env:
       SCIXIR_MINIO_REDIS_URL: redis://redis.localhost:6379/0
       SCIXIR_MINIO_BROADWAY_LIST_NAME: minio_events
@@ -28,6 +25,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-elixir@v1.0.0
+      with:
+        otp-version: 22.x
+        elixir-version: 1.9.x
+
     - name: Install Dependencies
       run: |
         cp config/dev.example.exs config/dev.exs
