@@ -2,15 +2,20 @@ defmodule Scixir.Uploader do
   alias Scixir.ScissorEvent
 
   def upload(%ScissorEvent{bucket: bucket, key: key, version: version}, file_path) do
-    dirname = Path.dirname(key)
     extname = Path.extname(key)
     basename = Path.basename(key, extname)
 
     versioned_key =
-      Path.join([
-        dirname,
-        "#{basename}_#{version}#{extname}"
-      ])
+      case Path.dirname(key) do
+        "." ->
+          "#{basename}_#{version}#{extname}"
+
+        dirname ->
+          Path.join([
+            dirname,
+            "#{basename}_#{version}#{extname}"
+          ])
+      end
 
     file_path
     |> ExAws.S3.Upload.stream_file()
