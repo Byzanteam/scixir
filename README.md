@@ -33,6 +33,61 @@ be found at [https://hexdocs.pm/scixir](https://hexdocs.pm/scixir).
 ##### minio event example:
 ```elixir
 [
+  %{
+    "Event" => [
+      %{
+        "awsRegion" => "",
+          "eventName" => "s3:ObjectCreated:Put",
+          "eventSource" => "minio:s3",
+          "eventTime" => "2020-10-27T12:44:26.629Z",
+          "eventVersion" => "2.0",
+          "requestParameters" => %{
+            "accessKey" => "minio",
+            "region" => "",
+            "sourceIPAddress" => "192.168.32.1"
+          },
+          "responseElements" => %{
+            "content-length" => "0",
+            "x-amz-request-id" => "1641DA0728E9BD8E",
+            "x-minio-deployment-id" => "08611c56-0ccc-4212-9fee-49ed4d6f1104",
+            "x-minio-origin-endpoint" => "http://192.168.32.3:9090"
+          },
+          "s3" => %{
+            "bucket" => %{
+              "arn" => "arn:aws:s3:::jet-public",
+              "name" => "jet-public",
+              "ownerIdentity" => %{"principalId" => "minio"}
+            },
+            "configurationId" => "Config",
+            "object" => %{
+              "contentType" => "image/jpeg",
+              "eTag" => "2c61024cc3c8431f965729235767bbd5",
+              "key" => "avatar-2.jpeg",
+              "sequencer" => "1641DA072A4DD4E2",
+              "size" => 2014,
+              "userMetadata" => %{
+                "X-Amz-Meta-Versions" => "medium|large",
+                "X-Amz-Meta-Purpose" => "app_assets",
+                "content-type" => "image/png"
+              },
+            },
+            "s3SchemaVersion" => "1.0"
+          },
+          "source" => %{
+            "host" => "192.168.32.1",
+            "port" => "",
+            "userAgent" => "MinIO (darwin; amd64) minio-go/v7.0.6 mc/2020-10-03T02:54:56Z"
+          },
+          "userIdentity" => %{"principalId" => "minio"}
+      }
+    ],
+    "EventTime" => "2020-10-27T12:44:26.629Z"
+  }
+]
+```
+```elixir
+# legacy data structure
+[
   "2019-10-25T12:39:17Z",
   [
     %{

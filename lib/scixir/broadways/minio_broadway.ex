@@ -45,9 +45,13 @@ defmodule Scixir.MinioBroadway do
   end
 
   defp generate_scissor_events(raw_data) do
-    [_timestamp, [data]] = Jason.decode!(raw_data)
-
-    case data do
+    raw_data
+    |> Jason.decode!()
+    |> case do
+      [_timestamp, [data]] -> data
+      [%{"Event" => [data]}] -> data
+    end
+    |> case do
       %{
         "s3" => %{
           "object" => %{
