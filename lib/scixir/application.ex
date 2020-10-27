@@ -15,7 +15,8 @@ defmodule Scixir.Application do
         }
       },
       {Scixir.MinioBroadway, []},
-      {Scixir.ScissorBroadway, []}
+      {Scixir.ScissorBroadway, []},
+      {Plug.Cowboy, scheme: :http, plug: Scixir.Router, options: [port: 4000]}
     ]
 
     Scixir.Config.normalize_versions_config()
